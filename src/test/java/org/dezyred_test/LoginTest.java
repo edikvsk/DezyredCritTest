@@ -1,6 +1,7 @@
 package org.dezyred_test;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class LoginTest {
     public static LoginPage loginPage;
-    //public static ProfilePage profilePage;
+    public static DashboardPage dashboardPage;
     public static WebDriver driver;
 
     @BeforeClass
@@ -19,12 +20,12 @@ public class LoginTest {
         System.setProperty("webdriver.chrome.driver", ConfProperties.getProperty("chromedriver"));
         driver = new ChromeDriver();
         //driver.manage().window().maximize();
-        //добавляю вейт 10 сек.
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        //добавляю вейт
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         //беру ссылку на страницу логина из conf.properties
         driver.get(ConfProperties.getProperty("login-page"));
         loginPage = new LoginPage(driver);
-        //dashboardPage = new ProfilePage(driver);
+        dashboardPage = new DashboardPage(driver);
     }
 
     @Test
@@ -40,6 +41,10 @@ public class LoginTest {
         loginPage.inputPasswd(ConfProperties.getProperty("password"));
         //нажимаю кнопку входа
         loginPage.clickPasswordBtn();
+        //нахожу тайтл
+        String title = driver.getTitle();
+        //сравниваю найденный тайтл с шаблоном
+        Assert.assertTrue(title.equals("Login to Dezyred - World of The Hottest VR Porn Games | Dezyred"));
     }
 
     @AfterClass
