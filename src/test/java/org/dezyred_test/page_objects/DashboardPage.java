@@ -1,4 +1,4 @@
-package org.dezyred_test;
+package org.dezyred_test.page_objects;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
