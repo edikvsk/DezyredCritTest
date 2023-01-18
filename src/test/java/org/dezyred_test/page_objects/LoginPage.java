@@ -1,4 +1,4 @@
-package org.dezyred_test;
+package org.dezyred_test.page_objects;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,6 +31,9 @@ public class LoginPage {
     @FindBy(xpath = "/html/body/div[2]/div/div/form/div[5]/button")
     private WebElement btnPassword;
 
+    @FindBy(xpath = "/html/body/div[2]/div[2]/div[1]")
+    private WebElement adultAgreement;
+
     //методы
     public void clickAgreeBtn() {
         btnAgree.click();
@@ -50,6 +53,11 @@ public class LoginPage {
 
     public void clickPasswordBtn() {
         btnPassword.click();
+    }
+
+    public String getAgreementText() {
+        return this.adultAgreement.getText();
+
     }
 }
 
