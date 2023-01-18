@@ -1,19 +1,25 @@
-package org.dezyred_test;
+package org.dezyred_test.tests;
 
+import org.dezyred_test.ConfProperties;
+import org.dezyred_test.StringsProperties;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.dezyred_test.page_objects.DashboardPage;
+import org.dezyred_test.page_objects.LoginPage;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class LoginTest {
     public static LoginPage loginPage;
     public static DashboardPage dashboardPage;
     public static WebDriver driver;
 
+    private static Logger log = Logger.getLogger(LoginTest.class.getName());
     @BeforeClass
     public static void setup() {
         //путь к драйверу
@@ -31,8 +37,14 @@ public class LoginTest {
     @Test
     public void loginTest() {
         //login/password лежат в conf.properties
+        //проверяю отображение предупреждения о возрастном ограничении
+        String agreementText = loginPage.getAgreementText();
+        Assert.assertEquals(agreementText, StringsProperties.getProperty("agreementText"));
         //подтверждаю возраст
         loginPage.clickAgreeBtn();
+        //проверяю что открыта страница логина
+        String loginPageUrl = driver.getCurrentUrl();
+        Assert.assertEquals(loginPageUrl, ConfProperties.getProperty("login-page"));
         //ввожу логин
         loginPage.inputLogin(ConfProperties.getProperty("login"));
         //жму кнопку логина
@@ -41,10 +53,9 @@ public class LoginTest {
         loginPage.inputPasswd(ConfProperties.getProperty("password"));
         //нажимаю кнопку входа
         loginPage.clickPasswordBtn();
-        //нахожу тайтл
+        //проверяю что открыта страница dashboard
         String title = driver.getTitle();
-        //сравниваю найденный тайтл с шаблоном
-        Assert.assertTrue(title.equals("Login to Dezyred - World of The Hottest VR Porn Games | Dezyred"));
+        Assert.assertEquals(title, ("Login to Dezyred - World of The Hottest VR Porn Games | Dezyred"));
     }
 
     @AfterClass
